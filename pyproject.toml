@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "News Web Scraping"
+version = "0.1.0"
+description = "A simple Selenium project to scrape web articles."
+authors = [
+  { name="Diego Hurtado", email="dieghurt200796@gmail.com" },
+]
+requires-python = ">=3.8"
+dependencies = [
+    "selenium",
+    "webdriver-manager",
+]
