@@ -6,11 +6,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from src.setup import driver
 
+from dotenv import load_dotenv
+import os
+
+
 def open_site():
-    driver.get("https://www.bbc.com/")
+    link = os.getenv("LINK")
+    driver.get(link)
 
 def get_headlines():
-    headline_selector='h2[data-testid="card-headline"]'
+    headline_selector = os.getenv("HEADLINE_SELECTOR")
     try:
         wait = WebDriverWait(driver, 20)
         headlines = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, headline_selector)))
@@ -27,10 +32,9 @@ def main():
         open_site()
         headlines = get_headlines()
         if headlines:
-            print("--- SCRAPED HEADLINES ---")
-            for i, title in enumerate(headlines, 1):
-                print(f"{i}: {title}")
-            print("-------------------------")
+            with open("headlines.txt", "w") as f:
+                for i, title in enumerate(headlines, 1):
+                    f.write(f"{i}: {title}\n")
         else:
             logging.info("No headlines were found.")
 
@@ -42,4 +46,5 @@ def main():
             driver.quit()
 
 if __name__ == "__main__":
+    load_dotenv()
     main()
